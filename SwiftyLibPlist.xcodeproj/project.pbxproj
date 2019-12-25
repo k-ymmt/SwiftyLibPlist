@@ -16,6 +16,7 @@
 		0266FC5823B351BC005D2408 /* PlistArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266FC5723B351BC005D2408 /* PlistArray.swift */; };
 		0266FC5A23B35216005D2408 /* PlistValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266FC5923B35216005D2408 /* PlistValue.swift */; };
 		0266FC5C23B35242005D2408 /* PlistDict.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0266FC5B23B35242005D2408 /* PlistDict.swift */; };
+		02BF5D7A23B381B00001BB45 /* libplist.h in Headers */ = {isa = PBXBuildFile; fileRef = 02BF5D7923B381B00001BB45 /* libplist.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +57,7 @@
 		0266FC5723B351BC005D2408 /* PlistArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistArray.swift; sourceTree = "<group>"; };
 		0266FC5923B35216005D2408 /* PlistValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistValue.swift; sourceTree = "<group>"; };
 		0266FC5B23B35242005D2408 /* PlistDict.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistDict.swift; sourceTree = "<group>"; };
+		02BF5D7923B381B00001BB45 /* libplist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libplist.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 		0266FC2F23B3399A005D2408 /* SwiftyLibPlist */ = {
 			isa = PBXGroup;
 			children = (
+				02BF5D7923B381B00001BB45 /* libplist.h */,
 				0266FC3023B3399A005D2408 /* SwiftyLibPlist.h */,
 				0266FC3123B3399A005D2408 /* Info.plist */,
 				0266FC4723B33A43005D2408 /* module.modulemap */,
@@ -137,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0266FC3E23B3399A005D2408 /* SwiftyLibPlist.h in Headers */,
+				02BF5D7A23B381B00001BB45 /* libplist.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
