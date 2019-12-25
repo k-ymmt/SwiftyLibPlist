@@ -253,7 +253,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nlib_path=${SRCROOT}/libplist\n\nif [ ! -d \"${lib_path}\" ];then\n    git submodule update --remote\nfi\n\nif [ ! -d \"${lib_path}/src/.libs\" ];then\n    cd $lib_path\n    ./autogen.sh\n    make\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -ex\n\nlib_path=${SRCROOT}/libplist\n\nif [ ! -d \"${lib_path}\" ];then\n    git submodule update --remote --init\nfi\n\nif [ ! -d \"${lib_path}/src/.libs\" ];then\n    cd $lib_path\n    ./autogen.sh\n    make\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
