@@ -72,7 +72,7 @@ public struct Plist {
     }
 
     public init?(nillableValue: plist_t?) {
-        guard let rawValue = rawValue else {
+        guard let rawValue = nillableValue else {
             return nil
         }
         self.rawValue = rawValue
