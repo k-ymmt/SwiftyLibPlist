@@ -257,7 +257,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -ex\n\nlib_path=${SRCROOT}/libplist/src/.lib\n\nif [ -d \"${lib_path}\" ];then\n    exit 0\nfi\n\ncd ${SRCROOT}/libplist\n./autogen.sh\nmake\n\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nset -ex\n\nlib_path=${SRCROOT}/libplist/src/.libs\n\nif [ -d \"${lib_path}\" ];then\n    exit 0\nfi\n\ncd ${SRCROOT}/libplist\n./autogen.sh\nmake\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
