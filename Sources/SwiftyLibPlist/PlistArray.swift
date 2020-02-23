@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libplist
+import LibPlist
 
 public struct PlistArrayIterator: IteratorProtocol {
     private let node: PlistArray?

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libplist
+import LibPlist
 
 public extension Plist {
     init(string: String) {

@@ -1,4 +1,4 @@
-module libplist {
+module LibPlist {
     header "libplist.h"
     export *
 }
