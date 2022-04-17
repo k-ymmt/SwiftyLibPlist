@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libplist
+import CPlist
 
 public struct PlistError: Error {
     public enum PlistErrorType {

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import libplist
+import CPlist
 
 public struct PlistDictIterator: IteratorProtocol {
     private let node: PlistDict
