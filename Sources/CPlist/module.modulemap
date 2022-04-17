@@ -1,5 +1,6 @@
-module LibPlist {
+module CPlist {
     header "libplist.h"
+    link "libplist"
     export *
 }
 

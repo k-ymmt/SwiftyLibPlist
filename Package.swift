@@ -20,13 +20,14 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "SwiftyLibPlist",
-            dependencies: ["LibPlist"]),
+            dependencies: ["CPlist"]),
         .testTarget(
             name: "SwiftyLibPlistTests",
             dependencies: ["SwiftyLibPlist"]),
         .systemLibrary(
-            name: "LibPlist",
-            pkgConfig: "libplist"
+            name: "CPlist",
+            pkgConfig: "libplist-2.0",
+            providers: [.brew(["libplist"])]
         )
     ]
 )
