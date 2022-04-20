@@ -86,7 +86,6 @@ class SwiftyLibPlistTests: XCTestCase {
                 Plist(date: now)
             ])
         ])
-        print(dict.xml()!)
         XCTAssertEqual(dict["test1"]?.string, "hoge")
         let test2 = dict["test2"]!
         XCTAssertEqual(test2[0]?.bool, true)

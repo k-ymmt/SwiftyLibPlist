@@ -50,10 +50,10 @@ extension PlistDict: Sequence {
 }
 
 public extension Plist {
-    init(dictionary: [String: Plist]) {
-        self.rawValue = plist_new_dict()
+    convenience init(dictionary: [String: Plist]) {
+        self.init(rawValue: plist_new_dict())
         for (key, value) in dictionary {
-            plist_dict_set_item(rawValue, key, value.rawValue)
+            plist_dict_set_item(rawValue, key, plist_copy(value.rawValue))
         }
     }
 
@@ -70,8 +70,10 @@ public extension Plist {
     
     subscript(key: String) -> Plist? {
         get {
-            let plist = plist_dict_get_item(rawValue, key)
-            return Plist(nillableValue: plist)
+            guard let plist = plist_dict_get_item(rawValue, key) else {
+                return nil
+            }
+            return Plist(unownedRawValue: plist, parent: self)
         }
         
         set {

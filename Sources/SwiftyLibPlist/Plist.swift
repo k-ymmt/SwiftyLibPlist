@@ -64,26 +64,37 @@ public enum PlistType {
     }
 }
 
-public struct Plist {
-    public var rawValue: plist_t?
+public final class Plist {
+    private var _rawValue: plist_t?
+    private let parent: Plist?
+    private var unownedRawValue: plist_t?
+
+    public var rawValue: plist_t? {
+        return _rawValue ?? unownedRawValue
+    }
     
-    public init(rawValue: plist_t) {
-        self.rawValue = rawValue
+    public init(rawValue: plist_t, parent: Plist? = nil) {
+        self._rawValue = rawValue
+        self.parent = parent
     }
 
-    public init?(nillableValue: plist_t?) {
+    public init?(nillableValue: plist_t?, parent: Plist? = nil) {
         guard let rawValue = nillableValue else {
             return nil
         }
-        self.rawValue = rawValue
+        self._rawValue = rawValue
+        self.parent = parent
     }
-    
-    mutating func free() {
-        guard let rawValue = self.rawValue else {
-            return
+
+    init(unownedRawValue: plist_t, parent: Plist? = nil) {
+        self.unownedRawValue = unownedRawValue
+        self.parent = parent
+    }
+
+    deinit {
+        if let rawValue = _rawValue {
+            plist_free(rawValue)
         }
-        plist_free(rawValue)
-        self.rawValue = nil
     }
 }
 
@@ -101,8 +112,8 @@ public extension Plist {
 }
 
 public extension Plist {
-    static func copy(from node: Self) -> Self {
-        return node
+    static func copy(from node: Plist) -> Plist {
+        return Plist(rawValue: plist_copy(node.rawValue))
     }
     
     func getParent() -> Plist? {
@@ -141,23 +152,23 @@ public extension Plist {
 }
 
 extension Plist: Equatable {
-    public static func == (lhs: Self, rhs: Self) -> Bool {
+    public static func == (lhs: Plist, rhs: Plist) -> Bool {
         plist_compare_node_value(lhs.rawValue, rhs.rawValue) > 0
     }
 }
 
 public extension Plist {
-    init?(xml: String) {
+    convenience init?(xml: String) {
         let length = xml.utf8CString.count
         var prawValue: plist_t? = nil
         plist_from_xml(xml, UInt32(length), &prawValue)
         guard let rawValue = prawValue else {
             return nil
         }
-        self.rawValue = rawValue
+        self.init(rawValue: rawValue)
     }
     
-    init?(bin: Data) {
+    convenience init?(bin: Data) {
         let prawValue = bin.withUnsafeBytes { (bin) -> plist_t? in
             var plist: plist_t? = nil
             guard let pointer = bin.baseAddress else {
@@ -171,17 +182,17 @@ public extension Plist {
         guard let rawValue = prawValue else {
             return nil
         }
-        self.rawValue = rawValue
+        self.init(rawValue: rawValue)
     }
     
-    init?(memory: String) {
+    convenience init?(memory: String) {
         let length = memory.utf8CString.count
         var prawValue: plist_t? = nil
         plist_from_memory(memory, UInt32(length), &prawValue)
         guard let rawValue = prawValue else {
             return nil
         }
-        self.rawValue = rawValue
+        self.init(rawValue: rawValue)
     }
     
     static func isBinary(data: String) -> Bool {

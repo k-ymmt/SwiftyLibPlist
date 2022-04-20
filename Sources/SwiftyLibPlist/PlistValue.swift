@@ -10,39 +10,40 @@ import Foundation
 import CPlist
 
 public extension Plist {
-    init(string: String) {
-        self.rawValue = plist_new_string(string)
+    convenience init(string: String) {
+        self.init(rawValue: plist_new_string(string))
     }
     
-    init(bool: Bool) {
-        self.rawValue = plist_new_bool(bool ? 1 : 0)
+    convenience init(bool: Bool) {
+        self.init(rawValue: plist_new_bool(bool ? 1 : 0))
     }
     
-    init(uint: UInt64) {
-        self.rawValue = plist_new_uint(uint)
+    convenience init(uint: UInt64) {
+        self.init(rawValue: plist_new_uint(uint))
     }
     
-    init(uid: UInt64) {
-        self.rawValue = plist_new_uid(uid)
+    convenience init(uid: UInt64) {
+        self.init(rawValue: plist_new_uid(uid))
     }
     
-    init(real: Double) {
-        self.rawValue = plist_new_real(real)
+    convenience init(real: Double) {
+        self.init(rawValue: plist_new_real(real))
     }
     
-    init(data: Data) {
+    convenience init(data: Data) {
         let count = data.count
-        self.rawValue = data.withUnsafeBytes { (data) -> plist_t? in
+        let rawValue = data.withUnsafeBytes { (data) -> plist_t in
             let value = data.baseAddress?.assumingMemoryBound(to: Int8.self)
             return plist_new_data(value, UInt64(count))
         }
+        self.init(rawValue: rawValue)
     }
     
-    init(date: Date) {
+    convenience init(date: Date) {
         let timeInterval = date.timeIntervalSinceReferenceDate
         var sec = 0.0
         let usec = modf(timeInterval, &sec)
-        self.rawValue = plist_new_date(Int32(sec), Int32(round(usec * 1000000)))
+        self.init(rawValue: plist_new_date(Int32(sec), Int32(round(usec * 1000000))))
     }
     
     var key: String? {

@@ -77,15 +77,15 @@ extension PlistArray: Sequence {
 }
 
 public extension Plist {
-    init(array: [Plist]) {
-        self.rawValue = plist_new_array()
+    convenience init(array: [Plist]) {
+        self.init(rawValue: plist_new_array())
         for value in array {
-            plist_array_append_item(rawValue, value.rawValue)
+            plist_array_append_item(rawValue, plist_copy(value.rawValue))
         }
     }
     
     subscript(index: UInt32) -> Plist? {
-        get { Plist(rawValue: plist_array_get_item(rawValue, index)) }
+        get { Plist(unownedRawValue: plist_array_get_item(rawValue, index), parent: self) }
         set { plist_array_set_item(rawValue, newValue?.rawValue, index) }
     }
 }
