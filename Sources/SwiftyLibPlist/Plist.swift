@@ -23,47 +23,6 @@ public struct PlistError: Error {
     }
 }
 
-public enum PlistType {
-    case boolean
-    case uint
-    case real
-    case string
-    case array
-    case dict
-    case date
-    case data
-    case key
-    case uid
-    case none
-    
-    public init(rawValue: plist_type) {
-        switch rawValue {
-        case PLIST_BOOLEAN:
-            self = .boolean
-        case PLIST_UINT:
-            self = .uint
-        case PLIST_REAL:
-            self = .real
-        case PLIST_STRING:
-            self = .string
-        case PLIST_ARRAY:
-            self = .array
-        case PLIST_DICT:
-            self = .dict
-        case PLIST_DATE:
-            self = .date
-        case PLIST_DATA:
-            self = .data
-        case PLIST_KEY:
-            self = .key
-        case PLIST_UID:
-            self = .uid
-        default:
-            self = .none
-        }
-    }
-}
-
 public final class Plist {
     private var _rawValue: plist_t?
     private let parent: Plist?
@@ -129,7 +88,7 @@ public extension Plist {
             return nil
         }
         
-        defer { plist_to_xml_free(xml) }
+        defer { plist_mem_free(xml) }
         return String(cString: xml)
     }
     
@@ -141,7 +100,7 @@ public extension Plist {
             return nil
         }
         
-        defer { plist_to_bin_free(bin) }
+        defer { plist_mem_free(bin) }
         return Data(bytes: UnsafeRawPointer(bin), count: Int(length))
     }
     
@@ -185,10 +144,11 @@ public extension Plist {
         self.init(rawValue: rawValue)
     }
     
-    convenience init?(memory: String) {
+    convenience init?(memory: String, format: PlistFormatType = .none) {
         let length = memory.utf8CString.count
         var prawValue: plist_t? = nil
-        plist_from_memory(memory, UInt32(length), &prawValue)
+        var format = format.rawValue
+        plist_from_memory(memory, UInt32(length), &prawValue, &format)
         guard let rawValue = prawValue else {
             return nil
         }
